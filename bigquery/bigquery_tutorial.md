@@ -1,13 +1,12 @@
-# Welcome to the Dataflow Streaming Tutorial
+# Welcome to the BigQuery Tutorial
 
 ## Intro
 
 In this tutorial we'll create the following scenario:
 
-![runbook-streaming](https://user-images.githubusercontent.com/12385160/119853137-4daef800-bee6-11eb-9256-8b19b203d06c.png)
-
-1. Generate JSON Files through a schema with fake info and populate a PubSub Topic
-2. Stream Data from PubSub | Transform the JSON file into rows | Populate a Big Query Table
+1. Create table in bq
+2. Load table with csv file
+3. Check/view table load
 
 ## Set the GCP Project
 
@@ -42,5 +41,5 @@ Please click [here](https://console.cloud.google.com/home/dashboard?project={{pr
 
 After opening the GCP console page, copy/paste the following command in the cloudshell:
 ```bash
-cloudshell launch-tutorial -d dataflow/streaming-pubsub-bq.md
+cloudshell launch-tutorial -d bigquery/bigquery_tutorial.md
 ```
