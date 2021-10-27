@@ -43,3 +43,45 @@ After opening the GCP console page, copy/paste the following command in the clou
 ```bash
 cloudshell launch-tutorial -d bigquery/bigquery_tutorial.md
 ```
+
+## Google Cloud Storage (GCS)
+
+### Create bucket
+```bash
+  gsutil mb -p {{project-id}} -c STANDARD -l southamerica-east1 -b on gs://tutorials-$USER
+```
+
+### Load file to bucket
+```bash
+gsutil cp arquivos/sample.csv gs://tutorials-$USER
+```
+
+## BigQuery Dataset/Table
+
+### Create Dataset
+```bash
+bq --location=southamerica-east1 mk \
+--dataset \
+--description "Tutorial Dataset" \
+{{project-id}}:$USER
+```
+
+### Create table
+```bash
+bq mk \
+-t \
+--description "Bigquery table raw" \
+{{project-id}}:$USER.tb_bigquery_raw \
+cpf:STRING,matricula:STRING,sobrenome:STRING,nome:STRING,email:STRING,data_de_ingresso:STRING
+```
+
+### Load csv from GCS to BQ table
+```bash
+bq load \
+--source_format=CSV \
+--skip_leading_rows 1 \
+--quote \
+{{project-id}}:$USER.tb_bigquery_raw \
+gs://tutorials-$USER \
+cpf:STRING,matricula:STRING,sobrenome:STRING,nome:STRING,email:STRING,data_de_ingresso:STRING
+```
