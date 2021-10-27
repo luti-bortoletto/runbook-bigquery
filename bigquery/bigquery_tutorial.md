@@ -104,7 +104,7 @@ CAST(matricula
 as INT64) 
 as matricula,
 CONCAT(nome, 
-' ', 
+" ", 
 sobrenome) 
 as nome_completo,
 email,
@@ -119,7 +119,7 @@ matricula
 ORDER BY 
 CONCAT(
 nome, 
-' ', 
+" ", 
 sobrenome) 
 ASC) 
 rank_matricula
