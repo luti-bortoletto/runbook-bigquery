@@ -51,9 +51,17 @@ cloudshell launch-tutorial -d bigquery/bigquery_tutorial.md
   gsutil mb -p {{project-id}} -c STANDARD -l southamerica-east1 -b on gs://tutorials-$USER
 ```
 
+### Fix encode file
+```bash
+file -i sample.csv
+iconv -f us-ascii -t utf-16 sample.csv > sample-utf16.csv
+iconv -f utf-16le -t utf-8 sample-utf16.csv > sample-utf8.csv
+file -i sample-utf8.csv
+```
+
 ### Load file to bucket
 ```bash
-gsutil cp arquivos/sample.csv gs://tutorials-$USER
+gsutil cp arquivos/sample-utf8.csv gs://tutorials-$USER
 ```
 
 ## BigQuery Dataset/Table
@@ -82,6 +90,6 @@ bq load \
 --skip_leading_rows 1 \
 --quote \
 {{project-id}}:$USER.tb_bigquery_raw \
-gs://tutorials-$USER/sample.csv \
+gs://tutorials-$USER/sample-utf8.csv \
 cpf:STRING,matricula:STRING,sobrenome:STRING,nome:STRING,email:STRING,data_de_ingresso:STRING
 ```
