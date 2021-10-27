@@ -75,7 +75,7 @@ bq mk \
 cpf:STRING,matricula:STRING,sobrenome:STRING,nome:STRING,email:STRING,data_de_ingresso:STRING
 ```
 
-### Load csv from GCS to BQ table
+### Load csv from GCS to BQ raw table 
 ```bash
 bq load \
 --source_format=CSV \
@@ -85,4 +85,27 @@ bq load \
 {{project-id}}:$USER.tb_bigquery_raw \
 gs://tutorials-$USER/sample.csv \
 cpf:STRING,matricula:STRING,sobrenome:STRING,nome:STRING,email:STRING,data_de_ingresso:STRING
+```
+
+### Create and load trusted table from raw
+```bash
+bq query \
+--destination_table {{project-id}}:$USER.tb_bigquery_trusted \
+--use_legacy_sql=false \
+'SELECT 
+cpf,
+matricula,
+nome_completo,
+data_de_ingresso
+FROM (
+SELECT
+  cpf,
+  CAST(matricula as INT64) as matricula,
+  CONCAT(nome, ' ', sobrenome) as nome_completo,
+  email,
+  PARSE_DATETIME("%A %b %e %H:%M:%S %Y",data_de_ingresso) as data_de_ingresso,
+  ROW_NUMBER() OVER(PARTITION BY matricula ORDER BY CONCAT(nome, ' ', sobrenome) ASC) rank_matricula
+FROM
+  {{project-id}}:$USER.tb_bigquery_raw) AS t1
+WHERE rank_matricula = 1'
 ```
