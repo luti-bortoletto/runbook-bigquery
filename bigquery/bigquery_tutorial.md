@@ -92,5 +92,19 @@ cpf:STRING,matricula:STRING,sobrenome:STRING,nome:STRING,email:STRING,data_de_in
 bq query --project_id=bv-ti-arqdados-sandbox \
 --destination_table {{project-id}}:$USER.tb_bigquery_trusted \
 --use_legacy_sql=false \
-'SELECT cpf,matricula,nome_completo,data_de_ingresso FROM (SELECTcpf,CAST(matricula as INT64) as matricula,CONCAT(nome, ' ', sobrenome) as nome_completo,email,PARSE_DATETIME("%A %b %e %H:%M:%S %Y",data_de_ingresso) as data_de_ingresso,ROW_NUMBER() OVER(PARTITION BY matricula ORDER BY CONCAT(nome, ' ', sobrenome) ASC) rank_matricula FROM {{project-id}}:$USER.tb_bigquery_raw) AS t1 WHERE rank_matricula = 1'
+'SELECT 
+cpf,
+matricula,
+nome_completo,
+data_de_ingresso 
+FROM (
+SELECT
+  cpf,
+  CAST(matricula as INT64) as matricula,
+  CONCAT(nome, ' ', sobrenome) as nome_completo,
+  email,
+  PARSE_DATETIME("%A %b %e %H:%M:%S %Y",data_de_ingresso) as data_de_ingresso,
+  ROW_NUMBER() OVER(PARTITION BY matricula ORDER BY CONCAT(nome, ' ', sobrenome) ASC) rank_matricula 
+FROM {{project-id}}.$USER.tb_bigquery_raw
+) AS t1 WHERE rank_matricula = 1'
 ```
