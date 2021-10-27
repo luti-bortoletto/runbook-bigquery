@@ -124,7 +124,7 @@ sobrenome)
 ASC) 
 rank_matricula
 FROM 
-{{project-id}}.{{user}}.tb_bigquery_raw
+{{project-id}}.\$USER.tb_bigquery_raw
 ) AS t1 
 WHERE rank_matricula = 1'
 ```
