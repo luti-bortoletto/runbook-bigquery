@@ -87,9 +87,10 @@ cpf:STRING,matricula:STRING,sobrenome:STRING,nome:STRING,email:STRING,data_de_in
 ```bash
 bq load \
 --source_format=CSV \
---skip_leading_rows 1 \
---quote \
+--project_id={{project-id}} \
+--skip_leading_rows=1 \
+--quote=''\
 {{project-id}}:$USER.tb_bigquery_raw \
-gs://tutorials-$USER/sample-utf8.csv \
+gs://tutorials-$USER/sample.csv \
 cpf:STRING,matricula:STRING,sobrenome:STRING,nome:STRING,email:STRING,data_de_ingresso:STRING
 ```
