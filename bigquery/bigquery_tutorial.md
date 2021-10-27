@@ -82,6 +82,6 @@ bq load \
 --skip_leading_rows 1 \
 --quote \
 {{project-id}}:$USER.tb_bigquery_raw \
-gs://tutorials-$USER \
+gs://tutorials-$USER/sample.csv \
 cpf:STRING,matricula:STRING,sobrenome:STRING,nome:STRING,email:STRING,data_de_ingresso:STRING
 ```
