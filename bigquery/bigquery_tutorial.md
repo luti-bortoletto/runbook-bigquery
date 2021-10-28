@@ -85,6 +85,8 @@ bq load \
 --project_id={{project-id}} \
 --skip_leading_rows=1 \
 --quote='' \
+--max_bad_records=1 \
+--ignore_unknown_values \
 {{project-id}}:$USER.tb_bigquery_raw \
 gs://tutorials-$USER/sample.csv \
 cpf:STRING,matricula:STRING,sobrenome:STRING,nome:STRING,email:STRING,data_de_ingresso:STRING
@@ -94,7 +96,6 @@ cpf:STRING,matricula:STRING,sobrenome:STRING,nome:STRING,email:STRING,data_de_in
 ```bash
 sed -i 's/$USER/'"$USER"'/g;s/$project_id/{{project-id}}/g' queries/trusted.sql
 bq query --project_id=bv-ti-arqdados-sandbox \
---quiet \
 --destination_table {{project-id}}:$USER.tb_bigquery_trusted \
 --use_legacy_sql=false < queries/trusted.sql
 ```
