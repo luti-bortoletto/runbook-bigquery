@@ -4,9 +4,12 @@
 
 In this tutorial we'll create the following scenario:
 
-1. Create table in bq
-2. Load table with csv file
-3. Check/view table load
+1. Create bucket
+2. Load file in bucket
+3. Create dataset
+4. Create table in bq
+5. Load table with csv file
+6. Create and load trusted table
 
 ## Set the GCP Project
 
@@ -95,4 +98,3 @@ bq query --project_id=bv-ti-arqdados-sandbox \
 --destination_table {{project-id}}:$USER.tb_bigquery_trusted \
 --use_legacy_sql=false < queries/trusted.sql
 ```
-
